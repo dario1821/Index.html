@@ -1,0 +1,150 @@
+---
+title: "Primer Trabajo Calculo de Histogramas"
+author: "Jesus Dario Colin Ortiz"
+date: "27/4/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(plotly)
+library(openxlsx)
+```
+
+#INTRODUCCION
+
+En este documento, se va a realizar un ejercicio del cálculo de histogramas para diferentes tamaños clase y para una muestra grande de calificaciones. El archívo con que se trabajo se extrae [de la siguiente liga](C:\Users\dario\Downloads) . El mismo se carga desde la carpeta en donde se guardo el presente "Rmarkdown".
+
+```{r Datos}
+#Se importan los datos del archivo de excel en un objeto llamado Datos:
+
+Datos=read.xlsx("Datos.xlsx")
+
+
+
+```
+
+A continuación se va a calcular el histograma de frecuencias para 10 clases:
+```{r histograma1}
+#calculamos minimo, maximo y rango, asi como tamaño de clase:
+num.clases=10
+minC2=min(Datos$Calificación)
+maxC2=max(Datos$Calificación)
+rango2=maxC2-minC2
+tam.clase2=rango2/num.clases
+#Se calcularon las frecuencias y el histograma dados el tamaño y numero de clases y los datos:
+hist2=hist(Datos$Calificación,breaks=seq(from=minC2,to=maxC2,by=tam.clase2),plot=FALSE)
+
+#Se calculan las frecuencias relativas o probabilidades dado el conteo de frecuencias en el objeto count, dentro del objeto "hist1":
+#Contar el numero (n) de observaciones en la muestra:
+n.obs2=nrow(Datos)
+Probabilidades2=hist2$counts/n.obs2
+#Se hace ahora una tabla de resumen de las frecuencias y de las probabilidades (frecuencias relativas para el histograma):
+Tabla2=data.frame(Clase=paste("Clase", seq(from=1,to=num.clases,by=1),sep="-"),Frecuencia2=hist2$counts, 
+                  Probabilidades=Probabilidades2*100
+                  )
+#Exportamos la tabla de histograma de frecuencias y probabilidades:
+write.xlsx(Tabla2,"hostograma4Frec.xlsx")
+Tabla2
+```
+
+
+Ahora se graficara el histograma de frecuencias correspondiente. Esto con una gráfica mas completa con ggplot que se instaló con la librería plotly:
+
+
+
+```{r grafica2}
+graf2=plot_ly(x=Datos$Calificación,
+              
+              type2="histogram",
+              xbins2=list(start=minC2,end=maxC2,size=tam.clase2))%>%
+ add_trace(x=hist2$mids,
+           y=Probabilidades2,
+           type="scatter",
+           mode="lines",
+           color="red",
+           yaxis="y2")%>% layout((yaxi2=list(overlaying="y", side="rigth")))
+graf2
+```
+
+
+A continuación se va a calcular el histograma de frecuencias para 25 clases:
+```{r histograma2}
+#calculamos minimo, maximo y rango, asi como tamaño de clase:
+num.clases3=25
+minC3=min(Datos$Calificación)
+maxC3=max(Datos$Calificación)
+rango3=maxC3-minC3
+tam.clase3=rango3/num.clases3
+#Se calcularon las frecuencias y el histograma dados el tamaño y numero de clases y los datos:
+hist3=hist(Datos$Calificación,breaks=seq(from=minC3,to=maxC3,by=tam.clase3),plot=FALSE)
+
+#Se calculan las frecuencias relativas o probabilidades dado el conteo de frecuencias en el objeto count, dentro del objeto "hist1":
+#Contar el numero (n) de observaciones en la muestra:
+n.obs3=nrow(Datos)
+Probabilidades3=hist3$counts/n.obs3
+#Se hace ahora una tabla de resumen de las frecuencias y de las probabilidades (frecuencias relativas para el histograma):
+Tabla3=data.frame(Clase=paste("Clase", seq(from=1,to=num.clases3,by=1),sep="-"),Frecuencia3=hist3$counts, 
+                  ProbabilidadesA=Probabilidades3*100
+                  )
+#Exportamos la tabla de histograma de frecuencias y probabilidades:
+
+Tabla3
+```
+
+
+Ahora se graficará el histograma de frecuencias correspondiente. Esto con una gráfica mas bonita con la librería ggplot que se instalo con la librería plotly:
+
+```{r grafica3}
+graf3=plot_ly(x=Datos$Calificación,
+              
+              type3="histogram",
+              xbins3=list(start=minC3,end=maxC3,size=tam.clase3))%>%
+ add_trace(x=hist3$mids,
+           y=Probabilidades3,
+           type="scatter",
+           mode="lines",
+           color="red",
+           yaxis="y2")%>% layout((yaxis=list(overlaying="y", side="rigth")))
+graf3
+```
+
+A continuación se va a calcular el histograma de frecuencias para 100 clases:
+```{r histograma3}
+#calculamos minimo, maximo y rango, asi como tamaño de clase:
+num.clases4=100
+minC4=min(Datos$Calificación)
+maxC4=max(Datos$Calificación)
+rango4=maxC4-minC4
+tam.clase4=rango4/num.clases4
+#Se calcularon las frecuencias y el histograma dados el tamaño y numero de clases y los datos:
+hist4=hist(Datos$Calificación,breaks=seq(from=minC4,to=maxC4,by=tam.clase4),plot=FALSE)
+
+#Se calculan las frecuencias relativas o probabilidades dado el conteo de frecuencias en el objeto count, dentro del objeto "hist1":
+#Contar el numero (n) de observaciones en la muestra:
+n.obs4=nrow(Datos)
+Probabilidades4=hist4$counts/n.obs4
+#Se hace ahora una tabla de resumen de las frecuencias y de las probabilidades (frecuencias relativas para el histograma):
+Tabla4=data.frame(Clase=paste("Clase", seq(from=1,to=num.clases4,by=1),sep="-"),Frecuencia4=hist4$counts, 
+                  ProbabilidadesB=Probabilidades4*100
+                  )
+#Exportamos la tabla de histograma de frecuencias y probabilidades:
+
+Tabla4
+```
+Ahora se graficará el histograma de frecuencias correspondiente. Esto con una gráfica mas completa con la librería ggplot que se instaló con la librería plotly:
+
+```{r grafica4}
+graf4=plot_ly(x=Datos$Calificación,
+              
+              type4="histogram",
+              xbins4=list(start=minC4,end=maxC4,size=tam.clase4))%>%
+ add_trace(x=hist4$mids,
+           y=Probabilidades4,
+           type="scatter",
+           mode="lines",
+           color="red",
+           yaxis="y2")%>% layout((yaxis=list(overlaying="y", side="rigth")))
+graf4
+```
+ssss
